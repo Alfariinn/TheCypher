@@ -19,6 +19,7 @@ namespace TheCypherLib
 
             //Szyfrujemy całą wiadomość według zasad Playfaira
             for (int i = 0; i < message.Length; i += 2)
+            {                
                 char firstChar = message[i];
                 //Dopisujemy X jako drugi znak jeśli ilość znaków w wiadomości jest nieparzysta
                 char secondChar = (i + 1 < message.Length) ? message[i + 1] : 'X';
