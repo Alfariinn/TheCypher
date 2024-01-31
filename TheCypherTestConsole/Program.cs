@@ -1,21 +1,20 @@
 ﻿using System;
-using TheCypher;
+using TheCypherLib;
 
 class Program
 {
     static void Main()
     {
 
-            string key = "klucz";
-            string message = "TESTOWAnie!!! polibiusza";
+        string playfairKey = "Żabaskaczewysoko";
+        string playfairMessage = "Nad stawem w dżungli";
+        string playfairEncoded = TheCypherLib.Playfair.Encode(playfairMessage, playfairKey);
+        string playfairDecoded = TheCypherLib.Playfair.Decode(playfairEncoded, playfairKey);
 
-            Console.WriteLine("Original Message: " + message);
-
-            string encodedMessage = Polybius.Encode(message, key);
-            Console.WriteLine("Encoded Message: " + encodedMessage);
-
-            string decodedMessage = Polybius.Decode(encodedMessage, key);
-            Console.WriteLine("Decoded Message: " + decodedMessage);
+        Console.WriteLine("Playfair Cipher:");
+        Console.WriteLine("Original Message: " + playfairMessage);
+        Console.WriteLine("Encoded Message : " + playfairEncoded);
+        Console.WriteLine("Decoded Message : " + playfairDecoded);
 
 
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheCypher
+namespace TheCypherLib
 {
     using System;
     using System.Linq;
@@ -12,20 +12,24 @@ namespace TheCypher
 
     public static class Polybius
     {
+        //Dekalrujemy apfabet i rozmiar tablicy
         private static string alphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ";
         private static int rows = 7;
         private static int cols = 5;
 
         public static string Encode(string message, string key)
         {
+            //Generujemy tablicę polibiusza według podanego klucza
             char[,] square = GeneratePolybiusSquare(key);
 
+            //Usuwamy spacje
             message = message.Replace(" ", "");
 
             StringBuilder encodedMessage = new StringBuilder();
 
             foreach (char character in message)
             {
+                //Jeżeli znak jest literą to zamieniamy go na współrzędne w tablicy i dopisujemy do stringa
                 if (char.IsLetter(character))
                 {
                     int[] coordinates = FindCoordinates(square, char.ToUpper(character));
@@ -33,28 +37,34 @@ namespace TheCypher
                 }
             }
 
+            //Usuwamy ostatnią spację z poprzedniego kroku
             return encodedMessage.ToString().Trim();
         }
 
         public static string Decode(string message, string key)
         {
+            //Generujemy tablicę polibiusza według podanego klucza
             char[,] square = GeneratePolybiusSquare(key);
 
+            //Usuwamy spację
             message = message.Replace(" ", "");
 
             StringBuilder decodedMessage = new StringBuilder();
 
             for (int i = 0; i < message.Length; i += 2)
             {
+                //Dzielimy wiadomość na 2 znakowe części
                 string pair = message.Substring(i, 2);
 
                 if (pair.Length == 2)
                 {
+                    //Czytamy wpsółrzędne z substringa
                     int row = int.Parse(pair[0].ToString());
                     int col = int.Parse(pair[1].ToString());
 
                     if (row <= square.GetLength(0) && col <= square.GetLength(1))
                     {
+                        //Zczytujemy znak z tablicy według współrzędnych i dodajemy go do stringa
                         char decryptedChar = square[row, col];
                         decodedMessage.Append(decryptedChar);
                     }
@@ -63,10 +73,6 @@ namespace TheCypher
                         decodedMessage.Append("?");
                     }
                 }
-                else
-                {
-                    throw new Exception("failed to decode");
-                }
             }
 
             return decodedMessage.ToString();
@@ -74,13 +80,16 @@ namespace TheCypher
 
         private static char[,] GeneratePolybiusSquare(string key)
         {
+            //Usuwamy powtórki znaków z klucza
             string uniqueKey = RemoveDuplicateCharacters(key.Replace(" ", "").ToUpper());
+            //Tworzymy zbiór znaków pomijając znaki z klucza
             string remainingAlphabet = new string(alphabet.Except(uniqueKey).ToArray());
 
             char[,] shuffledAlphabet = new char[rows, cols];
 
             int index = 0;
 
+            //Dopisujemy kolejno najpierw znaki z klucza a potem z reszty alfabetu
             foreach (char letter in uniqueKey)
             {
                 shuffledAlphabet[index / cols, index % cols] = letter;
@@ -96,8 +105,7 @@ namespace TheCypher
             return shuffledAlphabet;
         }
 
-
-
+        //Usuwa powtórzenia znaku z stringa
         private static string RemoveDuplicateCharacters(string input)
         {
             StringBuilder result = new StringBuilder();
@@ -111,6 +119,7 @@ namespace TheCypher
             return result.ToString();
         }
 
+        //Zwraca array zawierający koordynaty znaku w tablicy
         private static int[] FindCoordinates(char[,] square, char target)
         {
             int[] coordinates = new int[2];
@@ -127,7 +136,7 @@ namespace TheCypher
                     }
                 }
             }
-
+            //Zgłasza bład jeśli jakiegoś znaku nie było w tablicy, używałem do debugowania
             throw new Exception($"Character '{target}' not found in Polybius square.");
         }
 

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheCypher
+namespace TheCypherLib
 {
     public static class Vigenere
     {
         private static string alphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ";
 
+        //Dostosowuje długość klucza do długości wiadomości
         private static string ExtendKey(string key, int length)
         {
             StringBuilder extendedKey = new StringBuilder();
@@ -21,6 +22,8 @@ namespace TheCypher
                 extendedKey.Append(key[i % keyLength]);
             }
 
+
+
             return extendedKey.ToString();
         }
 
@@ -28,12 +31,12 @@ namespace TheCypher
         {
             StringBuilder encodedMessage = new StringBuilder();
 
-            string extendedKey = ExtendKey(key, message.Length);
+            string extendedKey = ExtendKey(key, message.Length); //Dostosowanie klucza
 
             for (int i = 0; i < message.Length; i++)
             {
                 char currentChar = message[i];
-
+                //Jeżeli znak jest literą to zamienia go na inny według klucza
                 if (char.IsLetter(currentChar))
                 {
                     int messageIndex = alphabet.IndexOf(char.ToUpper(currentChar));
@@ -44,7 +47,7 @@ namespace TheCypher
                     char newChar = char.IsUpper(currentChar) ? alphabet[newIndex] : char.ToLower(alphabet[newIndex]);
                     encodedMessage.Append(newChar);
                 }
-                else
+                else //Jeżeli nie jest literą to wpisuje go do stringa
                 {
                     encodedMessage.Append(currentChar);
                 }
@@ -59,6 +62,7 @@ namespace TheCypher
 
             string extendedKey = ExtendKey(key, message.Length);
 
+            //Jeżeli znak jest literą to zamienia go na inny według klucza
             for (int i = 0; i < message.Length; i++)
             {
                 char currentChar = message[i];
@@ -68,12 +72,13 @@ namespace TheCypher
                     int messageIndex = alphabet.IndexOf(char.ToUpper(currentChar));
                     int keyIndex = alphabet.IndexOf(char.ToUpper(extendedKey[i]));
 
+                    //Przy dekodowaniu używamy ujemnego przesunięcia
                     int newIndex = (messageIndex - keyIndex + alphabet.Length) % alphabet.Length;
 
                     char newChar = char.IsUpper(currentChar) ? alphabet[newIndex] : char.ToLower(alphabet[newIndex]);
                     decodedMessage.Append(newChar);
                 }
-                else
+                else //Jeżeli nie jest literą to wpisuje go do stringa
                 {
                     decodedMessage.Append(currentChar);
                 }
@@ -83,4 +88,6 @@ namespace TheCypher
         }
 
     }
+
 }
+

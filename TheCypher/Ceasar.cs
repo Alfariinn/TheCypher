@@ -1,31 +1,36 @@
 ﻿using System.Text;
 
-namespace TheCypher
+namespace TheCypherLib
 {
     public static class Caesar
     {
         private static string alphabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ";
 
-        public static string Encode(string message, int key = 0)
+        public static string Encode(string message, int key)
         {
             StringBuilder encodedMessage = new StringBuilder();
 
-            int boundedKey = key % alphabet.Length;
+            // Upewniam się że długość klucza będzie w zakresie 1-34
+            int boundedKey = key % alphabet.Length; 
 
+            // Iteruję kolejno po każdym znaku w wiadomości  i zamienia go na znak z innej pozcyji
             for (int i = 0; i < message.Length; i++)
             {
                 char currentChar = message[i];
 
+                // Zmienia tylko litery, ignorując pozostałe znaki
                 if (char.IsLetter(currentChar))
                 {
                     int messageIndex = alphabet.IndexOf(char.ToUpper(currentChar));
 
+                    // Dodajemy alphabet.Length do przesunięcia aby można było używać wartości ujemnych
+                    // przy dekodowaniu.
                     int newIndex = (messageIndex + boundedKey + alphabet.Length) % alphabet.Length;
-
-                    char newChar = char.IsUpper(currentChar) ? alphabet[newIndex] : char.ToLower(alphabet[newIndex]);
-                    encodedMessage.Append(newChar);
+                    
+                    // Dołączamy zmieniony znak do naszego stringa
+                    encodedMessage.Append(currentChar);
                 }
-                else
+                else // Jeżeli znak nie jest literą dołączamy go niezmniejąc
                 {
                     encodedMessage.Append(currentChar);
                 }
@@ -34,9 +39,9 @@ namespace TheCypher
             return encodedMessage.ToString();
         }
 
-        public static string Decode(string encodedMessage, int key = 0)
+        public static string Decode(string encodedMessage, int key)
         {
-            return Encode(encodedMessage, -key);
+            return Encode(encodedMessage, -key); // Odwracamy metodę Encode używając ujemnej wartości
         }
 
     }
