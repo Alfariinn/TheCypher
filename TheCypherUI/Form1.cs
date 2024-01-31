@@ -205,7 +205,7 @@ namespace TheCypherUI
         {
             string inputText = inputTextBox.Text;
             string key = keyTextBox.Text;
-            int keyNumeric = Convert.ToInt32(keyNumericUpDown.Value);
+            int keyNumeric = (int)keyNumericUpDown.Value;
             string result = "";
             if (inputText != null && key != null)
             {
