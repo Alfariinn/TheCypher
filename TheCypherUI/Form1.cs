@@ -52,12 +52,12 @@ namespace TheCypherUI
             // keyNumericUpDown
             // 
             keyNumericUpDown.Location = new Point(12, 167);
-            keyNumericUpDown.Maximum = new decimal(new int[] { 34, 0, 0, 0 });
-            keyNumericUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            keyNumericUpDown.Maximum = 34;
+            keyNumericUpDown.Minimum = 1;
             keyNumericUpDown.Name = "keyNumericUpDown";
             keyNumericUpDown.Size = new Size(50, 23);
             keyNumericUpDown.TabIndex = 1;
-            keyNumericUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            keyNumericUpDown.Value = 1;
             // 
             // inputTextBox
             // 
@@ -205,7 +205,7 @@ namespace TheCypherUI
         {
             string inputText = inputTextBox.Text;
             string key = keyTextBox.Text;
-            int keyNumeric = (int)keyNumericUpDown.Value;
+            int keyNumeric = Convert.ToInt32(keyNumericUpDown.Value);
             string result = "";
             if (inputText != null && key != null)
             {

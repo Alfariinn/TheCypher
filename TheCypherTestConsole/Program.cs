@@ -7,11 +7,10 @@ class Program
     {
 
         string playfairKey = "Żabaskaczewysoko";
-        string playfairMessage = "Nad stawem w dżungli";
-        string playfairEncoded = TheCypherLib.Playfair.Encode(playfairMessage, playfairKey);
-        string playfairDecoded = TheCypherLib.Playfair.Decode(playfairEncoded, playfairKey);
+        int playfairMessage = 5;
+        string playfairEncoded = Caesar.Encode(playfairKey, playfairMessage);
+        string playfairDecoded = Caesar.Decode(playfairKey, playfairMessage);
 
-        Console.WriteLine("Playfair Cipher:");
         Console.WriteLine("Original Message: " + playfairMessage);
         Console.WriteLine("Encoded Message : " + playfairEncoded);
         Console.WriteLine("Decoded Message : " + playfairDecoded);

@@ -11,7 +11,7 @@ namespace TheCypherLib
             StringBuilder encodedMessage = new StringBuilder();
 
             // Upewniam się że długość klucza będzie w zakresie 1-34
-            int boundedKey = key % alphabet.Length; 
+            int boundedKey = key % alphabet.Length;
 
             // Iteruję kolejno po każdym znaku w wiadomości  i zamienia go na znak z innej pozcyji
             for (int i = 0; i < message.Length; i++)
@@ -23,10 +23,11 @@ namespace TheCypherLib
                 {
                     int messageIndex = alphabet.IndexOf(char.ToUpper(currentChar));
 
-                    // Dodajemy alphabet.Length do przesunięcia aby można było używać wartości ujemnych
-                    // przy dekodowaniu.
+                    // Dodajemy alphabet.Length do przesunięcia aby można było używać wartości 
+                    // ujemnych przy dekodowaniu.
                     int newIndex = (messageIndex + boundedKey + alphabet.Length) % alphabet.Length;
-                    
+
+                    currentChar = alphabet[newIndex];
                     // Dołączamy zmieniony znak do naszego stringa
                     encodedMessage.Append(currentChar);
                 }
@@ -41,8 +42,10 @@ namespace TheCypherLib
 
         public static string Decode(string encodedMessage, int key)
         {
-            return Encode(encodedMessage, -key); // Odwracamy metodę Encode używając ujemnej wartości
+            // Odwracamy metodę Encode używając ujemnej wartości
+            return Encode(encodedMessage, -key);
         }
 
     }
+
 }
